@@ -40,6 +40,14 @@ var getCity = function(city) {
             var iconLink = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png"
             iconImg.src = iconLink
 
+            var temp = document.querySelector('.temp')
+            temp.textContent = data.list[0].main.temp
+
+            var humidity = document.querySelector('.humidity')
+            humidity.textContent = data.list[0].main.humidity
+
+            var wind = document.querySelector('.wind')
+            wind.TextContent = data.list[0].wind.speed
 
         })
     })
