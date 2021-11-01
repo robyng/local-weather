@@ -20,7 +20,7 @@ searchForm.addEventListener("submit", inputHandler)
 
 
 var getCity = function(city) {
-    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&cnt=5&appid=a265ac1d58947ea1284e84b622179a3f&units=imperial"
+    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=a265ac1d58947ea1284e84b622179a3f&units=imperial"
 
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
