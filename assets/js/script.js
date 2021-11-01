@@ -27,7 +27,7 @@ var getCity = function(city) {
             console.log(data)
 
             var cityNameEl = document.querySelector(".city-name");
-            cityNameEl.textContent = data.city.name
+            cityNameEl.textContent = data.city.name + " 5-Day Forcast"
             //var noon = data.list[3]
 
             var day1Date = document.querySelector("#day-1-date")
