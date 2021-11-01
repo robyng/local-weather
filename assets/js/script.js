@@ -33,10 +33,13 @@ var currentForcast = function(city) {
             currentWeatherEl.textContent = cdata.name + "'s Current Weather"
 
             var currentTempEl = document.querySelector(".current-temp");
-            currentTempEl.textContent = cdata.main.temp + " F*"
+            currentTempEl.textContent = "Temp: " + cdata.main.temp + " F*"
 
             var currentWindEl = document.querySelector(".current-wind");
-            currentWindEl.textContent = cdata.wind.speed + " MPH"
+            currentWindEl.textContent = "Wind Speed: " + cdata.wind.speed + " MPH"
+
+            var currentHumidityEl = document.querySelector(".current-humidity");
+            currentHumidityEl.textContent = "Humidity: " + cdata.main.humidity + " %"
 
 
             // var day1Date = document.querySelector("#day-1-date")
@@ -72,7 +75,7 @@ var forcast = function(city) {
             console.log(data)
 
             var cityNameEl = document.querySelector(".city-name");
-            cityNameEl.textContent = data.city.name + " 5-Day Forcast"
+            cityNameEl.textContent = data.city.name + "'s 5-Day Forcast"
             //var noon = data.list[3]
 
             var day1Date = document.querySelector("#day-1-date")
