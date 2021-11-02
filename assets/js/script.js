@@ -8,6 +8,9 @@ var inputHandler = function(event) {
     var cityChoice = inputEl.value.trim();
 
     if (cityChoice) {
+        var searches = JSON.parse(localStorage.getItem("searches")) || []
+        searches.push(cityChoice)
+        localStorage.setItem("searches", JSON.stringify(searches))
         currentForcast(cityChoice)
         forcast(cityChoice);
         // resets search form to blank
@@ -77,29 +80,92 @@ var forcast = function(city) {
             var cityNameEl = document.querySelector(".city-name");
             cityNameEl.textContent = data.city.name + "'s 5-Day Forcast"
             //var noon = data.list[3]
+            for (i=0; i<5; i++) {
+                var j = i * 8
+                var dateCol = document.querySelector("#dayCol" + i)
 
-            var day1Date = document.querySelector("#day-1-date")
-            day1Date.textContent = data.list[3].dt_txt
+                var day1Date = document.querySelector("#day-" + i)
+                day1Date.textContent = data.list[j].dt_txt
+    
+                // var icon = document.querySelector(".weather-icon")
+                // icon.textContent = data.list[j].weather[0].description
+    
+                var iconImg = document.querySelector(".icon-img-"+i)
+                var iconCode = data.list[j].weather[0].icon
+                var iconLink = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png"
+                iconImg.setAttribute("src", iconLink)
+    
+                var temp = document.querySelector('.temp-'+i)
+                temp.textContent += data.list[j].main.temp
+    
+                var humidity = document.querySelector('.humidity-'+i)
+                humidity.textContent += data.list[j].main.humidity
+    
+                var wind = document.querySelector('.wind-'+i)
+                wind.textContent += data.list[j].wind.speed
+    
 
-            var icon = document.querySelector(".weather-icon")
-            icon.textContent = data.list[3].weather[0].description
-
-            var iconImg = document.querySelector(".icon-img")
-            var iconCode = data.list[3].weather[0].icon
-            var iconLink = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png"
-            iconImg.src = iconLink
-
-            var temp = document.querySelector('.temp')
-            temp.textContent = data.list[3].main.temp
-
-            var humidity = document.querySelector('.humidity')
-            humidity.textContent = data.list[3].main.humidity
-
-            var wind = document.querySelector('.wind')
-            wind.textContent = data.list[3].wind.speed
-
+            }
+            
         })
     })
+}
+
+
+var createCol = function(){
+    // var container = document.createElement("div")
+    // container.classList.add("container")
+    // container.setAttribute('id', "5Container")
+    // document.main.appendChild(container)
+
+    // var row = document.createElement("div")
+    // container.classList.add("row")
+    // document.container.appendChild(row)
+
+    for (i=0; i<5; i++){
+        idNum = "dayCol" + i 
+
+        var newDiv = document.createElement("div");
+        newDiv.classList.add("col-2");
+        newDiv.setAttribute('id', idNum);
+
+
+        var num = "day-" + i
+
+        var h3Day = document.createElement("h3");
+        h3Day.setAttribute('id', num)
+        h3Day.textContent = num
+
+        newDiv.appendChild(h3Day)
+
+newDiv.innerHTML+=`<img class="icon-img-${i}" alt="">
+<ul>
+    <li class="weather-icon"></li>
+    <li class="temp">Temperature: <span class="temp-${i}"></span> F*</li>
+    <li class="wind">Wind Speed: <span class="wind-${i}"></span> MPH</li>
+    <li class="humidity">Humidity: <span class="humidity-${i}"></span>%</li>
+
+</ul>`
+        
+
+        document.getElementById("5-day").appendChild(newDiv)
+
+
+
+
+    }
+
+
+
+
+}
+createCol()
+
+var displaySearch = function(){
+
+var searches = JSON.parse(localStorage.getItem("searches")) || []
+
+
 }
 
 
