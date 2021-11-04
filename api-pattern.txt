@@ -1,0 +1,19 @@
+0 index = 3:00
+1 index = 6:00
+2 index = 9:00
+3 index = 12:00
+4 index = 15:00
+5 index = 18:00
+6 index = 21:00
+7 index = 0:00 next day
+8 index = 3:00
+9 index = 6:00
+10 index = 9
+11 index = 12
+12 index = 15
+13 index = 18
+14 index = 21
+15 index = 0:00 next day
+
+nov 1st noon index = data.list[3] 
+nov 2nd noon index = data.list[11]
