@@ -1,37 +1,53 @@
 var searchForm = document.querySelector("#search-form");
 var inputEl = document.querySelector("#search-city");
 
+var savedSearches = document.querySelector(".saved-searches")
+
 var inputHandler = function(event) {
     event.preventDefault();
     
-
     var cityChoice = inputEl.value.trim();
 
     if (cityChoice) {
+        currentForcast(cityChoice)
+        forcast(cityChoice);
+
         var searches = JSON.parse(localStorage.getItem("searches")) || []
         searches.push(cityChoice)
         localStorage.setItem("searches", JSON.stringify(searches))
-        currentForcast(cityChoice)
-        forcast(cityChoice);
+        
+        savedSearches.innerHTML += `<button>${cityChoice}</button></br />`
+        
+        savedSearches.addEventListener('click', function(event){
+            savedCityChoice = event.target.innerHTML
+            currentForcast(savedCityChoice)
+            forcast(savedCityChoice);
+
+        })
         // resets search form to blank
         inputEl.value = "";
     } else {
         alert("No matches. please re-enter city name")
     }
 
-    console.log(event)
-
 }
 
 searchForm.addEventListener("submit", inputHandler)
+
 
 
 var currentForcast = function(city) {
     var currentApiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=a265ac1d58947ea1284e84b622179a3f&units=imperial"
     fetch(currentApiUrl).then(function(response) {
         response.json().then(function(cdata) {
-           console.log(cdata)
 
+            //console.log(cdata)
+
+            var currentIconImg = document.querySelector(".current-icon")
+            var cIconCode = cdata.weather[0].icon
+            var iconLink = "http://openweathermap.org/img/wn/" + cIconCode + "@2x.png"
+            currentIconImg.setAttribute("src", iconLink)
+      
             var currentWeatherEl = document.querySelector("#current-weather");
             currentWeatherEl.textContent = cdata.name + "'s Current Weather"
 
@@ -44,27 +60,39 @@ var currentForcast = function(city) {
             var currentHumidityEl = document.querySelector(".current-humidity");
             currentHumidityEl.textContent = "Humidity: " + cdata.main.humidity + " %"
 
+            var curLong = cdata.coord.lon
+            var curLat = cdata.coord.lat
 
-            // var day1Date = document.querySelector("#day-1-date")
-            // day1Date.textContent = data.list[3].dt_txt
+           
 
-            // var icon = document.querySelector(".weather-icon")
-            // icon.textContent = data.list[3].weather[0].description
 
-            // var iconImg = document.querySelector(".icon-img")
-            // var iconCode = data.list[3].weather[0].icon
-            // var iconLink = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png"
-            // iconImg.src = iconLink
+            ///////
+            
+            
+                
+                var oneCallApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + curLat + "&lon=" + curLong + "&exclude=minutely,hourly,daily,alerts&appid=a265ac1d58947ea1284e84b622179a3f"
+                fetch(oneCallApiUrl).then(function(response) {
+                    response.json().then(function(uvData) {
+                        
+                        console.log(uvData)
+            
+                        var currentUvi = document.querySelector(".uv-index")
 
-            // var temp = document.querySelector('.temp')
-            // temp.textContent = data.list[3].main.temp
+                        var uvIndex = uvData.current.uvi
+                        currentUvi.textContent = uvIndex
 
-            // var humidity = document.querySelector('.humidity')
-            // humidity.textContent = data.list[3].main.humidity
+                        
+                        
+            
+            
+                    })
+                })
+            
+            
 
-            // var wind = document.querySelector('.wind')
-            // wind.textContent = data.list[3].wind.speed
 
+
+            //////
         })
     })
 }
@@ -75,11 +103,11 @@ var forcast = function(city) {
 
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
-            console.log(data)
+            
 
             var cityNameEl = document.querySelector(".city-name");
             cityNameEl.textContent = data.city.name + "'s 5-Day Forcast"
-            //var noon = data.list[3]
+
             for (i=0; i<5; i++) {
                 var j = i * 8
                 var dateCol = document.querySelector("#dayCol" + i)
@@ -87,22 +115,19 @@ var forcast = function(city) {
                 var day1Date = document.querySelector("#day-" + i)
                 day1Date.textContent = data.list[j].dt_txt
     
-                // var icon = document.querySelector(".weather-icon")
-                // icon.textContent = data.list[j].weather[0].description
-    
                 var iconImg = document.querySelector(".icon-img-"+i)
                 var iconCode = data.list[j].weather[0].icon
                 var iconLink = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png"
                 iconImg.setAttribute("src", iconLink)
     
                 var temp = document.querySelector('.temp-'+i)
-                temp.textContent += data.list[j].main.temp
+                temp.textContent = data.list[j].main.temp
     
                 var humidity = document.querySelector('.humidity-'+i)
-                humidity.textContent += data.list[j].main.humidity
+                humidity.textContent = data.list[j].main.humidity
     
                 var wind = document.querySelector('.wind-'+i)
-                wind.textContent += data.list[j].wind.speed
+                wind.textContent = data.list[j].wind.speed
     
 
             }
@@ -113,15 +138,6 @@ var forcast = function(city) {
 
 
 var createCol = function(){
-    // var container = document.createElement("div")
-    // container.classList.add("container")
-    // container.setAttribute('id', "5Container")
-    // document.main.appendChild(container)
-
-    // var row = document.createElement("div")
-    // container.classList.add("row")
-    // document.container.appendChild(row)
-
     for (i=0; i<5; i++){
         idNum = "dayCol" + i 
 
@@ -147,16 +163,8 @@ newDiv.innerHTML+=`<img class="icon-img-${i}" alt="">
 
 </ul>`
         
-
         document.getElementById("5-day").appendChild(newDiv)
-
-
-
-
     }
-
-
-
 
 }
 createCol()
@@ -165,16 +173,4 @@ var displaySearch = function(){
 
 var searches = JSON.parse(localStorage.getItem("searches")) || []
 
-
 }
-
-
-
-
-// for (let i = 3; i < cars.length; i = i + 8) {
-//     text += cars[i] + "<br>";
-//     console.log(cars[3])
-//     console.log(cars[11])
-//     console.log(cars[19])
-    
-//   }

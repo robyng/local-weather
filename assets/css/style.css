@@ -6,3 +6,15 @@ ul {
     list-style-type: none;
     padding: 0;
 }
+
+.uv-index .red {
+    background-color: red;
+}
+
+.uv-index .green {
+    background-color: rgb(47, 190, 111);
+}
+
+.uv-index .yellow {
+    background-color: rgb(233, 204, 42);
+}
