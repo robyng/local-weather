@@ -81,7 +81,16 @@ var currentForcast = function(city) {
                         var uvIndex = uvData.current.uvi
                         currentUvi.textContent = uvIndex
 
-                        
+                        //conditionals for uv severity
+
+                        if (uvIndex < 3){
+                            currentUvi.classList.add("green")
+                        } else if (uvIndex > 5) {
+                            currentUvi.classList.add("red")
+
+                        } else {
+                            currentUvi.classList.add("yellow")
+                        }
                         
             
             
