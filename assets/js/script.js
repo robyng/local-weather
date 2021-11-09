@@ -84,12 +84,18 @@ var currentForcast = function(city) {
                         //conditionals for uv severity
 
                         if (uvIndex < 3){
+                            currentUvi.className = ""
                             currentUvi.classList.add("green")
+                            currentUvi.classList.add("uv-index")
                         } else if (uvIndex > 5) {
+                            currentUvi.className = ""
                             currentUvi.classList.add("red")
+                            currentUvi.classList.add("uv-index")
 
                         } else {
+                            currentUvi.className = ""
                             currentUvi.classList.add("yellow")
+                            currentUvi.classList.add("uv-index")
                         }
                         
             

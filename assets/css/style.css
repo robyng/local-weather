@@ -7,14 +7,22 @@ ul {
     padding: 0;
 }
 
+.uv-index {
+    padding: 3px 10px;
+    margin: 5px;
+}
+
 .red {
-    background-color: red;
+    background-color: rgb(180, 42, 42);
+    color: white;
 }
 
 .green {
-    background-color: rgb(47, 190, 111);
+    background-color: rgb(23, 139, 75);
+    color: white;
 }
 
 .yellow {
-    background-color: rgb(233, 204, 42);
+    background-color: rgb(235, 207, 48);
+    color: black;
 }
